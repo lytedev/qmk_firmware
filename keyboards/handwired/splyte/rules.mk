@@ -1,6 +1,10 @@
 # MCU name
 MCU = atmega32u4
+ARCH = AVR8
 
+F_CPU = 8000000
+F_USB = $(F_CPU)
+USE_FPU = yes
 
 # Bootloader selection
 #   Teensy       halfkay
@@ -9,7 +13,7 @@ MCU = atmega32u4
 #   LUFA DFU     lufa-dfu
 #   QMK DFU      qmk-dfu
 #   atmega32a    bootloadHID
-BOOTLOADER = atmel-dfu
+BOOTLOADER = caterina
 
 
 # If you don't know the bootloader type, then you can specify the
@@ -21,6 +25,7 @@ BOOTLOADER = atmel-dfu
 #   USBaspLoader        2048
 # OPT_DEFS += -DBOOTLOADER_SIZE=4096
 
+OPT_DEFS += -DINTERRUPT_CONTROL_ENDPOINT
 
 # Build Options
 #   change yes to no to disable

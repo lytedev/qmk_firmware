@@ -41,12 +41,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *                  ROW2COL = ROW = Anode (+), COL = Cathode (-, marked on diode)
  *
  */
-#define MATRIX_ROW_PINS { B7, B6, B5, D7, C6 }
-#define MATRIX_COL_PINS { F7, F6, F5, F4, F1, F0 }
+#define MATRIX_ROW_PINS { D6, B7, B6, B5, C6 }
+#define MATRIX_COL_PINS { F0, F1, F4, F5, F6, F7 }
 #define UNUSED_PINS
 
 /* COL2ROW, ROW2COL*/
-#define DIODE_DIRECTION COL2ROW
+#define DIODE_DIRECTION ROW2COL
 
 /*
  * Split Keyboard specific options, make sure you have 'SPLIT_KEYBOARD = yes' in your rules.mk, and define SOFT_SERIAL_PIN.
