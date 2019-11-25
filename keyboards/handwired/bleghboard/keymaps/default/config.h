@@ -1,3 +1,3 @@
 #pragma once
-
-// overrides
+#include "config_common.h"
+#include "quantum.h"
