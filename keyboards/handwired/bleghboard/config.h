@@ -7,10 +7,10 @@
 #define DEVICE_VER      0x0001
 #define MANUFACTURER    lytedev
 #define PRODUCT         bleghboard
-#define DESCRIPTION     Bleghboard
+#define DESCRIPTION     A BLE split, orthlinear keyboard
 
-#define MATRIX_ROWS 2
-#define MATRIX_COLS 2
+#define MATRIX_ROWS 5
+#define MATRIX_COLS 6
 
 // TODO: IO expander?
 
@@ -18,8 +18,8 @@
  * COLS: AVR pins used for columns, left to right
  * ROWS: AVR pins used for rows, top to bottom
  */
-#define MATRIX_ROW_PINS { A0, A1 }
-#define MATRIX_COL_PINS { A2, A3 }
+#define MATRIX_ROW_PINS { B7, B6, B5, D7, C6 }
+#define MATRIX_COL_PINS { F7, F6, F5, F4, F1, F0 }
 #define UNUSED_PINS
 
 /* COL2ROW | ROW2COL
@@ -35,7 +35,7 @@
 /* debounce
  * set 0 if debouncing is not needed
  */
-#define DEBOUNCE 5
+#define DEBOUNCE 0
 
 /* mechanical locking support
  * Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap
