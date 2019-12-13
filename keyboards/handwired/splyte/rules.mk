@@ -38,6 +38,6 @@ HD44780_ENABLE    ?= no  # Enable support for HD44780 based LCDs (+400)
 ADAFRUIT_BLE_ENABLE ?= yes
 BLUETOOTH ?= AdafruitBLE
 
-SPLIT_KEYBOARD ?= yes
+# SPLIT_KEYBOARD ?= yes
 
 LAYOUTS = splyte
