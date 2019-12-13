@@ -173,66 +173,23 @@ uint8_t matrix_key_count(void) {
  *           13 12 11 10 9  8
  */
 static void init_cols(void) {
-	// TODO: how does this work?!
-	DDRE  &= ~(1<<PF6);
-	PORTE |=  (1<<PF6);
-	DDRD  &= ~(1<<PF0 | 1<<PF1 | 1<<PF5);
-	PORTD |=  (1<<PF0 | 1<<PF1 | 1<<PF5);
-	DDRC  &= ~(1<<PF4);
-	PORTC |=  (1<<PF4);
-	DDRB  &= ~(1<<PF7);
-	PORTB |=  (1<<PF7);
+	DDRF  &= ~(1<<PF0 | 1<<PF1 | 1<<PF4 | 1<<PF5 | 1<<PF6 | 1<<PF7);
+	PORTF |=  (1<<PF0 | 1<<PF1 | 1<<PF4 | 1<<PF5 | 1<<PF6 | 1<<PF7);
 
 	// TODO: expander_init();
 }
 
 static matrix_row_t read_cols(uint8_t row) {
 	return // TODO: expander_read_row() |
-		(PIND&(1<<PF0) ? 0 : (1<<5)) |
-		(PIND&(1<<PF1) ? 0 : (1<<4)) |
-		(PINC&(1<<PF4) ? 0 : (1<<3)) |
-		(PIND&(1<<PF5) ? 0 : (1<<2)) |
-		(PINE&(1<<PF6) ? 0 : (1<<1)) |
-		(PINB&(1<<PF7) ? 0 : (1<<0)) ;
+		(PINF&(1<<PF0) ? 0 : (1<<0)) |
+		(PINF&(1<<PF1) ? 0 : (1<<1)) |
+		(PINF&(1<<PF4) ? 0 : (1<<2)) |
+		(PINF&(1<<PF5) ? 0 : (1<<3)) |
+		(PINF&(1<<PF6) ? 0 : (1<<4)) |
+		(PINF&(1<<PF7) ? 0 : (1<<5)) ;
 }
-
-/* OLD FOR PRO MICRO
- * Pro Micro:
- *        6  5  4  3  2  1  0
- *        D3 D2 D4 C6 D7 E6 B4
- *
-static void  init_cols(void) {
-	// TODO: not pro micro
-	DDRE  &= ~(1<<PE6);
-	PORTE |=  (1<<PE6);
-	DDRD  &= ~(1<<PD2 | 1<<PD3 | 1<<PD4 | 1<<PD7);
-	PORTD |=  (1<<PD2 | 1<<PD3 | 1<<PD4 | 1<<PD7);
-	DDRC  &= ~(1<<PC6);
-	PORTC |=  (1<<PC6);
-	DDRB  &= ~(1<<PB4);
-	PORTB |=  (1<<PB4);
-
-	expander_init();
-}
-
-static matrix_row_t read_cols(uint8_t row) {
-	// TODO: not pro micro
-	return expander_read_row() |
-		(PIND&(1<<PD3) ? 0 : (1<<6)) |
-		(PIND&(1<<PD2) ? 0 : (1<<5)) |
-		(PIND&(1<<PD4) ? 0 : (1<<4)) |
-		(PINC&(1<<PC6) ? 0 : (1<<3)) |
-		(PIND&(1<<PD7) ? 0 : (1<<2)) |
-		(PINE&(1<<PE6) ? 0 : (1<<1)) |
-		(PINB&(1<<PB4) ? 0 : (1<<0)) ;
-}
-*/
 
 /* Row pin configuration
- *
- * Pro Micro:
- *           0  1  2  3  4  5
- *           F4 F5 F6 F7 B1 B2
  *
  * Feather 32u4 Bluefruit LE:
  *           0  1  2  3  4
@@ -241,37 +198,38 @@ static matrix_row_t read_cols(uint8_t row) {
  *           0  1  2  3  4
  */
 static void unselect_rows(void) {
-	DDRF  &= ~(1<<PD6 | 1<<PB7 | 1<<PB6 | 1<<PB5);
-	PORTF &= ~(1<<PD6 | 1<<PB7 | 1<<PB6 | 1<<PB5);
-	DDRB  &= ~(1<<PC6);
-	PORTB &= ~(1<<PC6);
+	DDRB  &= ~(1<<PB7 | 1<<PB6 | 1<<PB5);
+	PORTB &= ~(1<<PB7 | 1<<PB6 | 1<<PB5);
+	DDRD  &= ~(1<<PD6);
+	PORTD &= ~(1<<PD6);
+	DDRC  &= ~(1<<PC6);
+	PORTC &= ~(1<<PC6);
 
 	// Expander
-	expander_unselect_rows();
+	// TODO: expander_unselect_rows();
 }
 
 static void select_row(uint8_t row) {
-	// TODO: not pro micro
 	switch (row) {
 		case 0:
-			DDRF  |=  (1<<PD6);
-			PORTF &= ~(1<<PD6);
+			DDRD  |=  (1<<PD6);
+			PORTD &= ~(1<<PD6);
 			break;
 		case 1:
-			DDRF  |=  (1<<PB7);
-			PORTF &= ~(1<<PB7);
+			DDRB  |=  (1<<PB7);
+			PORTB &= ~(1<<PB7);
 			break;
 		case 2:
-			DDRF  |=  (1<<PB6);
-			PORTF &= ~(1<<PB6);
+			DDRB  |=  (1<<PB6);
+			PORTB &= ~(1<<PB6);
 			break;
 		case 3:
-			DDRF  |=  (1<<PB5);
-			PORTF &= ~(1<<PB5);
+			DDRB  |=  (1<<PB5);
+			PORTB &= ~(1<<PB5);
 			break;
 		case 4:
-			DDRB  |=  (1<<PC6);
-			PORTB &= ~(1<<PC6);
+			DDRC  |=  (1<<PC6);
+			PORTC &= ~(1<<PC6);
 			break;
 	}
 

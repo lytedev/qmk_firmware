@@ -1,3 +1,5 @@
+#include <print.h>
+
 #include "splyte.h"
 
 void matrix_init_kb(void) {
@@ -14,6 +16,11 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 
 void led_set_kb(uint8_t usb_led) {
 	led_set_user(usb_led);
+}
+
+void keyboard_post_init_user(void) {
+	debug_enable = true;
+	// debug_matrix = true;
 }
 
 /* Copyright 2019 Daniel Flanagan
