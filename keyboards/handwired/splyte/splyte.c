@@ -3,6 +3,9 @@
 #include "splyte.h"
 
 void matrix_init_kb(void) {
+#ifdef CONSOLE_ENABLE
+	uprintf("matrix_init_kb");
+#endif
 	matrix_init_user();
 }
 

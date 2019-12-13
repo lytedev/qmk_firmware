@@ -10,12 +10,8 @@
 #define PRODUCT Splyteboard
 #define DESCRIPTION "Splyteboard"
 
-#define MATRIX_ROWS 5 * 2
-#define MATRIX_COLS 6
-
-// TODO: custom matrix
-#define MATRIX_ROW_PINS { D6, B7, B6, B5, D7 }
-#define MATRIX_COL_PINS { F0, F1, F4, F5, F6, F7 }
+#define MATRIX_ROWS 5
+#define MATRIX_COLS 6 * 2
 
 #define DIODE_DIRECTION ROW2COL
 #define UNUSED_PINS

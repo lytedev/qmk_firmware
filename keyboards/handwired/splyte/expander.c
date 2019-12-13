@@ -13,6 +13,9 @@ uint8_t expander_write(uint8_t reg, uint8_t data);
 uint8_t expander_read(uint8_t reg, uint8_t *data);
 
 void expander_init(void) {
+#ifdef CONSOLE_ENABLE
+	uprintf("expander_init");
+#endif
 	i2c_init();
 	expander_scan();
 }
@@ -69,6 +72,9 @@ void expander_select_row(uint8_t row) {
 }
 
 void expander_config(void) {
+#ifdef CONSOLE_ENABLE
+	uprintf("expander_config");
+#endif
 	expander_write(EXPANDER_REG_IPOLA, 0xFF);
 	expander_write(EXPANDER_REG_GPPUA, 0xFF);
 	expander_write(EXPANDER_REG_IODIRB, 0xFF);
