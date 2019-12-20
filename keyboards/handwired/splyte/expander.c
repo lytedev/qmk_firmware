@@ -1,29 +1,60 @@
 #include <stdbool.h>
 
 #include "action.h"
-#include "twi.h"
+#include "twi_master.h"
 #include "expander.h"
 #include "debug.h"
 
 static uint8_t expander_status = 0;
 static uint8_t expander_input = 0;
 
-void expander_config(void);
-uint8_t expander_write(uint8_t reg, uint8_t data);
-uint8_t expander_read(uint8_t reg, uint8_t *data);
+// TODO: grok this code
+uint8_t expander_write(uint8_t, uint8_t);
+void expander_scan(void);
+
+void expander_config(void) {
+	expander_write(EXPANDER_REG_IPOLA, 0xFF);
+	expander_write(EXPANDER_REG_GPPUA, 0xFF);
+	expander_write(EXPANDER_REG_IODIRB, 0xFF);
+}
 
 void expander_init(void) {
-#ifdef CONSOLE_ENABLE
-	uprintf("expander_init");
-#endif
-	i2c_init();
+	twi_init();
 	expander_scan();
 }
 
+uint8_t expander_write(uint8_t reg, uint8_t data) {
+	if (expander_status == 0) return 0;
+	uint8_t ret;
+	ret = twi_start(EXPANDER_ADDR | TWI_WRITE);
+	if (ret) goto stop;
+	ret = twi_write(reg);
+	if (ret) goto stop;
+	ret = twi_write(data);
+stop:
+	twi_stop();
+	return ret;
+}
+
+uint8_t expander_read(uint8_t reg, uint8_t *data) {
+	if (expander_status == 0) return 0;
+	uint8_t ret;
+	ret = twi_start(EXPANDER_ADDR | TWI_WRITE);
+	if (ret) goto stop;
+	ret = twi_write(reg);
+	if (ret) goto stop;
+	ret = twi_rep_start(EXPANDER_ADDR | TWI_READ);
+	if (ret) goto stop;
+	*data = twi_read_nak();
+stop:
+	twi_stop();
+	return ret;
+}
+
 void expander_scan(void) {
-	uint8_t ret = i2c_start(EXPANDER_ADDR | I2C_WRITE);
+	uint8_t ret = twi_start(EXPANDER_ADDR | TWI_WRITE);
 	if (ret == 0) {
-		i2c_stop();
+		twi_stop();
 		if (expander_status == 0) {
 			expander_status = 1;
 			expander_config();
@@ -71,43 +102,3 @@ void expander_select_row(uint8_t row) {
 	expander_write(EXPANDER_REG_IODIRB, ~(1<<(row+1)));
 }
 
-void expander_config(void) {
-#ifdef CONSOLE_ENABLE
-	uprintf("expander_config");
-#endif
-	expander_write(EXPANDER_REG_IPOLA, 0xFF);
-	expander_write(EXPANDER_REG_GPPUA, 0xFF);
-	expander_write(EXPANDER_REG_IODIRB, 0xFF);
-}
-
-uint8_t expander_write(uint8_t reg, uint8_t data) {
-	if (expander_status == 0) {
-		return 0;
-	}
-	uint8_t ret;
-	ret = i2c_start(EXPANDER_ADDR | I2C_WRITE);
-	if (ret) goto stop;
-	ret = i2c_write(reg);
-	if (ret) goto stop;
-	ret = i2c_write(data);
-stop:
-	i2c_stop();
-	return ret;
-}
-
-uint8_t expander_read(uint8_t reg, uint8_t *data) {
-	if (expander_status == 0) {
-		return 0;
-	}
-	uint8_t ret;
-	ret = i2c_start(EXPANDER_ADDR | I2C_WRITE);
-	if (ret) goto stop;
-	ret = i2c_write(reg);
-	if (ret) goto stop;
-	ret = i2c_rep_start(EXPANDER_ADDR | I2C_READ);
-	if (ret) goto stop;
-	*data = i2c_readNak();
-stop:
-	i2c_stop();
-	return ret;
-}

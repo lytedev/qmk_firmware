@@ -1,5 +1,5 @@
 SRC = \
-	twi.c \
+	twi_master.c \
 	matrix.c \
 	expander.c \
 

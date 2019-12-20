@@ -12,6 +12,11 @@
 
 #define MATRIX_ROWS 5
 #define MATRIX_COLS 6 * 2
+// #define COL_EXPANDED { false, false, false, false, false, false, true, true, true, true, true, true}
+// #define EXPANDER_COL_REGISTER GPIOA
+// #define EXPANDER_ROW_REGISTER GPIOB
+// #define MATRIX_EXPANDER_COL_PINS {0, 1, 2, 3, 4, 5}
+// #define MATRIX_EXPANDER_ROW_PINS {0, 1, 2, 3, 4, 5}
 
 #define DIODE_DIRECTION ROW2COL
 #define UNUSED_PINS
