@@ -52,9 +52,6 @@ inline uint8_t matrix_cols(void) {
 }
 
 void matrix_init(void) {
-#ifdef CONSOLE_ENABLE
-	uprintf("matrix_init");
-#endif
 	unselect_rows();
 	init_cols();
 
@@ -74,9 +71,6 @@ void matrix_init(void) {
 }
 
 void matrix_power_up(void) {
-#ifdef CONSOLE_ENABLE
-	uprintf("matrix_power_up");
-#endif
 
 	unselect_rows();
 	init_cols();
@@ -180,10 +174,6 @@ uint8_t matrix_key_count(void) {
  *           13 12 11 10 9  8
  */
 static void init_cols(void) {
-#ifdef CONSOLE_ENABLE
-	uprintf("init_cols");
-#endif
-
 	DDRF  &= ~(1<<PF0 | 1<<PF1 | 1<<PF4 | 1<<PF5 | 1<<PF6 | 1<<PF7);
 	PORTF |=  (1<<PF0 | 1<<PF1 | 1<<PF4 | 1<<PF5 | 1<<PF6 | 1<<PF7);
 
@@ -209,10 +199,6 @@ static matrix_row_t read_cols(uint8_t row) {
  *           0  1  2  3  4
  */
 static void unselect_rows(void) {
-#ifdef CONSOLE_ENABLE
-	uprintf("unselect_rows");
-#endif
-
 	DDRB  &= ~(1<<PB7 | 1<<PB6 | 1<<PB5);
 	PORTB &= ~(1<<PB7 | 1<<PB6 | 1<<PB5);
 	DDRD  &= ~(1<<PD6);
@@ -220,7 +206,6 @@ static void unselect_rows(void) {
 	DDRC  &= ~(1<<PC6);
 	PORTC &= ~(1<<PC6);
 
-	// Expander
 	expander_unselect_rows();
 }
 

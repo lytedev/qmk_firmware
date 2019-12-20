@@ -74,7 +74,7 @@ void expander_read_cols(void) {
 }
 
 uint8_t expander_get_col(uint8_t col) {
-	if (col > 4) {
+	if (col > (MATRIX_COLS / 2) + 1) {
 		col++;
 	}
 	return expander_input & (1<<col) ? 1 : 0;
@@ -87,7 +87,7 @@ matrix_row_t expander_read_row(void) {
 	matrix_row_t cols = 0;
 	for (uint8_t col = 0; col < MATRIX_COLS; col++) {
 		if (expander_get_col(col)) {
-			cols |= (1UL << (MATRIX_COLS - 1 - col));
+			cols |= (1UL << (MATRIX_COLS + 1 - col));
 		}
 	}
 
@@ -99,6 +99,6 @@ void expander_unselect_rows(void) {
 }
 
 void expander_select_row(uint8_t row) {
-	expander_write(EXPANDER_REG_IODIRB, ~(1<<(row+1)));
+	expander_write(EXPANDER_REG_IODIRB, ~(1<<(row)));
 }
 
